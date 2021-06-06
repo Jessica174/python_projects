@@ -1,0 +1,27 @@
+from bs4 import BeautifulSoup
+import requests
+
+
+def weatherforecast(city):
+    city=city.replace(" ","+")
+    res = requests.get(f'https://www.google.com/search?q={city}&oq={city}&aqs=chrome.0.35i39l2j0l4j46j69i60.6128j1j7&sourceid=chrome&ie=UTF-8',headers=headers)
+    print("Please wait......\n")
+    soup = BeautifulSoup(res.text,'html.parser')   
+    location = soup.select('#wob_loc')[0].getText().strip()  
+    time = soup.select('#wob_dts')[0].getText().strip()       
+    description = soup.select('#wob_dc')[0].getText().strip() 
+    weather = soup.select('#wob_tm')[0].getText().strip()
+    precipitation=soup.select("#wob_pp")[0].getText().strip()
+    humidity=soup.select("#wob_hm")[0].getText().strip()
+    wind=soup.select("#wob_ws")[0].getText().strip()
+    print("Weather forecast for:",location)
+    print("Now:",time)
+    print("Description:",description)
+    print("Teamperature Now:",weather+"°C") 
+    print("Prepcipitation:",precipitation)
+    print("Humidity:",humidity)
+    print("Wind:",wind)
+
+city=input("Enter the Location: ")
+city=city+" weather"
+weatherforecast(city)
